@@ -1,6 +1,7 @@
 import logging
 import time
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from threading import Thread, BoundedSemaphore
 
 from concurrent_django.exercises.dining_philosophers.shared import STATE_TIME, PHILOSOPHER_COUNT, FORK_COUNT, PhilosopherState
@@ -17,8 +18,9 @@ class LockedFork:
 
 
 class DeadlockingPhilosopher(Thread):
-    def __init__(self, index: int, name: str, left: LockedFork, right: LockedFork):
+    def __init__(self, run_for: int, index: int, name: str, left: LockedFork, right: LockedFork):
         super().__init__()
+        self.run_for = run_for
         self.state = PhilosopherState.THINKING
         self.index = index
         self.name = name
@@ -26,7 +28,9 @@ class DeadlockingPhilosopher(Thread):
         self.right = right
 
     def run(self):
-        while True:
+        time_now = datetime.now()
+        end_time = time_now + timedelta(seconds=self.run_for)
+        while time_now < end_time:
             self.state = PhilosopherState.THINKING
             _logger.info(f"{self.name} is thinking")
             time.sleep(STATE_TIME)
@@ -38,13 +42,22 @@ class DeadlockingPhilosopher(Thread):
                 self.state = PhilosopherState.EATING
                 _logger.info(f"{self.name} is eating with {self.left.name} and {self.right.name}")
                 time.sleep(STATE_TIME)
+            time_now = datetime.now()
 
 
 def start(run_for: int = None):
     forks = [LockedFork(i, f"Fork #{i + 1}", BoundedSemaphore()) for i in range(FORK_COUNT)]
     philosophers = []
     for i in range(PHILOSOPHER_COUNT):
-        philosophers.append(DeadlockingPhilosopher(i, f"Philosopher #{i + 1}", forks[i % FORK_COUNT], forks[(i + 1) % FORK_COUNT]))
+        philosophers.append(
+            DeadlockingPhilosopher(
+                run_for,
+                i,
+                f"Philosopher #{i + 1}",
+                forks[i % FORK_COUNT],
+                forks[(i + 1) % FORK_COUNT]
+            )
+        )
 
     for i in range(PHILOSOPHER_COUNT):
         philosophers[i].start()

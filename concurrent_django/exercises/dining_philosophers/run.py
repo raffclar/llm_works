@@ -9,9 +9,9 @@ _logger = logging.getLogger(__name__)
 
 def main():
     _logger.info("Starting arbitration exercise")
-    start_arbitration_exercise()
+    start_arbitration_exercise(run_for=3)
     _logger.info("Starting deadlocking exercise")
-    start_deadlocking_exercise()
+    start_deadlocking_exercise(run_for=3)
 
 
 if __name__ == "__main__":

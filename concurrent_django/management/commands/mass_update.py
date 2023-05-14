@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = "Start the mass update exercise"
 
     def handle(self, *args, **options):
-        start()
+        start(run_for=300)
