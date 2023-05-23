@@ -1,7 +1,11 @@
 import logging
 
-from concurrent_django.exercises.dining_philosophers.arbitration import start as start_arbitration_exercise
-from concurrent_django.exercises.dining_philosophers.deadlock import start as start_deadlocking_exercise
+from concurrent_django.exercises.dining_philosophers.arbitration import (
+    start as start_arbitration_exercise,
+)
+from concurrent_django.exercises.dining_philosophers.deadlock import (
+    start as start_deadlocking_exercise,
+)
 
 
 _logger = logging.getLogger(__name__)

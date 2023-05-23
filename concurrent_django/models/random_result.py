@@ -12,15 +12,18 @@ class RandomOrgManager(models.Manager):
         if min_value == max_value:
             raise ValueError("The minimum and maximum values cannot be the same")
 
-        res = requests.get(URL, params={
-            "num": 1,
-            "base": 10,
-            "min": min_value,
-            "max": max_value,
-            "col": 1,
-            "format": "plain",
-            "rnd": "new",
-        })
+        res = requests.get(
+            URL,
+            params={
+                "num": 1,
+                "base": 10,
+                "min": min_value,
+                "max": max_value,
+                "col": 1,
+                "format": "plain",
+                "rnd": "new",
+            },
+        )
         res.raise_for_status()
         value = Decimal(res.text)
         return self.create(value=value)

@@ -4,8 +4,12 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from threading import Thread, BoundedSemaphore
 
-from concurrent_django.exercises.dining_philosophers.deadlock import PhilosopherState, STATE_TIME, FORK_COUNT, \
-    PHILOSOPHER_COUNT
+from concurrent_django.exercises.dining_philosophers.deadlock import (
+    PhilosopherState,
+    STATE_TIME,
+    FORK_COUNT,
+    PHILOSOPHER_COUNT,
+)
 
 _logger = logging.getLogger(__name__)
 _logger.setLevel(logging.INFO)
@@ -24,7 +28,15 @@ class Arbitrator(BoundedSemaphore):
 
 
 class Philosopher(Thread):
-    def __init__(self, run_for: int, index: int, name: str, arbitrator: Arbitrator, left: Fork, right: Fork):
+    def __init__(
+        self,
+        run_for: int,
+        index: int,
+        name: str,
+        arbitrator: Arbitrator,
+        left: Fork,
+        right: Fork,
+    ):
         super().__init__()
         self.run_for = run_for
         self.state = PhilosopherState.THINKING
@@ -45,7 +57,9 @@ class Philosopher(Thread):
             _logger.info(f"{self.name} is hungry")
             with self.arbitrator.talk(self.name):
                 self.state = PhilosopherState.EATING
-                _logger.info(f"{self.name} is eating with {self.left.name} and {self.right.name}")
+                _logger.info(
+                    f"{self.name} is eating with {self.left.name} and {self.right.name}"
+                )
                 time.sleep(STATE_TIME)
             time_now = datetime.now()
 
@@ -64,7 +78,7 @@ def start(run_for: int = None):
                 f"Philosopher #{i + 1}",
                 arbitrator,
                 forks[i % FORK_COUNT],
-                forks[(i + 1) % FORK_COUNT]
+                forks[(i + 1) % FORK_COUNT],
             )
         )
     for i in range(PHILOSOPHER_COUNT):

@@ -1,2 +1,2 @@
-from .scroll import *
-from .random_result import *
+from .scroll import *  # NOQA
+from .random_result import *  # NOQA

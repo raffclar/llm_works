@@ -13,7 +13,10 @@ PROBLEM_SIZE = 100
 
 
 def _random_note() -> str:
-    return ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(32))
+    return "".join(
+        random.SystemRandom().choice(string.ascii_uppercase + string.digits)
+        for _ in range(32)
+    )
 
 
 class ScrollWriter(Thread):

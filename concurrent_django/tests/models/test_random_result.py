@@ -21,5 +21,7 @@ class TestRandomResult(TestCase):
         self.assertEqual(result.value, Decimal(10))
 
     def test_custom_object_manager_raises_value_error_on_identical_min_max(self):
-        with self.assertRaisesMessage(ValueError, "The minimum and maximum values cannot be the same"):
+        with self.assertRaisesMessage(
+            ValueError, "The minimum and maximum values cannot be the same"
+        ):
             RandomResult.objects.create_with_random_api(0, 0)
