@@ -11,8 +11,9 @@ authors = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-requests = "~2.30.0"
+requests = "~2.31.0"
 django = "~4.2.1"
+transformers = "4.29"
 
 [tool.poetry.group.dev.dependencies]
 isort = "^5.12.0"
