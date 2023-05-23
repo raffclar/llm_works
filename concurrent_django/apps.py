@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DbDeadlocking(AppConfig):
+class ConcurrentDjango(AppConfig):
     name = "concurrent_django"
-    verbose_name = "Database Deadlocking Tests"
+    verbose_name = "Concurrent Django"
